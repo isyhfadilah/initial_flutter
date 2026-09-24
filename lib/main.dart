@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/screens/nilai_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Color(0xFF6D4C41),
         ),
       ),
-      home: const MyHomePage(title: 'Kalkulator Versi 1.0'),
+      home: const NilaiPage(),
     );
   }
 }
