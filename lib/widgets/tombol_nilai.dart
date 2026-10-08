@@ -30,13 +30,27 @@ class _TombolNilaiState extends State<TombolNilai> {
       children: [
         Text('Nilai: ${dataNilai.nilai}'),
         Text('Status: ${dataNilai.status}'),
-        ElevatedButton(
-          onPressed: _tambahNilai,
-          child: const Text('Tambah nilai'),
+        const SizedBox(height: 16),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: _tambahNilai,
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size.fromHeight(48),
+            ),
+            child: const Text('Tambah nilai'),
+          ),
         ),
-        ElevatedButton(
-          onPressed: _resetNilai,
-          child: const Text('Reset nilai'),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton(
+            onPressed: _resetNilai,
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size.fromHeight(48),
+            ),
+            child: const Text('Reset nilai'),
+          ),
         ),
       ],
     );
