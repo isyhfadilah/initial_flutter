@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/screens/products_page.dart';
+import 'package:flutter_application_2/screens/login_page.dart';
 
 void main() {
   runApp(const ProductApp());
@@ -35,7 +35,7 @@ class ProductApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const ProductsPage(),
+      home: const LoginPage(),
     );
   }
 }

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_application_2/models/auth_user.dart';
 import 'package:flutter_application_2/models/product.dart';
 import 'package:flutter_application_2/screens/product_detail_page.dart';
+import 'package:flutter_application_2/screens/login_page.dart';
 import 'package:flutter_application_2/services/product_service.dart';
 import 'package:flutter_application_2/widgets/product_card.dart';
 
 class ProductsPage extends StatefulWidget {
-  const ProductsPage({super.key});
+  const ProductsPage({required this.user, super.key});
+
+  final AuthUser user;
 
   @override
   State<ProductsPage> createState() => _ProductsPageState();
@@ -37,6 +41,44 @@ class _ProductsPageState extends State<ProductsPage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
+          PopupMenuButton<String>(
+            tooltip: 'Account',
+            onSelected: (value) {
+              if (value == 'logout') {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const LoginPage()),
+                  (route) => false,
+                );
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                enabled: false,
+                value: 'user',
+                child: Text(widget.user.displayName.isEmpty
+                    ? widget.user.username
+                    : widget.user.displayName),
+              ),
+              const PopupMenuDivider(),
+              const PopupMenuItem(
+                value: 'logout',
+                child: Text('Logout'),
+              ),
+            ],
+            child: CircleAvatar(
+              radius: 17,
+              backgroundImage: widget.user.image.isEmpty
+                  ? null
+                  : NetworkImage(widget.user.image),
+              child: widget.user.image.isEmpty
+                  ? Text(
+                      widget.user.username.isEmpty
+                          ? '?'
+                          : widget.user.username.substring(0, 1).toUpperCase(),
+                    )
+                  : null,
+            ),
+          ),
           IconButton(
             onPressed: _retry,
             tooltip: 'Refresh products',
