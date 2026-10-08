@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_application_2/models/auth_user.dart';
 import 'package:flutter_application_2/models/product.dart';
+import 'package:flutter_application_2/screens/add_product_page.dart';
 import 'package:flutter_application_2/screens/product_detail_page.dart';
 import 'package:flutter_application_2/screens/login_page.dart';
 import 'package:flutter_application_2/services/product_service.dart';
@@ -32,6 +33,22 @@ class _ProductsPageState extends State<ProductsPage> {
     });
   }
 
+  Future<void> _openAddProduct() async {
+    final product = await Navigator.of(
+      context,
+    ).push<Product>(MaterialPageRoute(builder: (_) => const AddProductPage()));
+    if (product == null || !mounted) return;
+
+    final products = await _productsFuture;
+    if (!mounted) return;
+    setState(() {
+      _productsFuture = Future.value([product, ...products]);
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Produk berhasil ditambahkan.')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +58,11 @@ class _ProductsPageState extends State<ProductsPage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
+          IconButton(
+            onPressed: _openAddProduct,
+            tooltip: 'Tambah produk',
+            icon: const Icon(Icons.add_box_outlined),
+          ),
           PopupMenuButton<String>(
             tooltip: 'Account',
             onSelected: (value) {
@@ -55,15 +77,14 @@ class _ProductsPageState extends State<ProductsPage> {
               PopupMenuItem(
                 enabled: false,
                 value: 'user',
-                child: Text(widget.user.displayName.isEmpty
-                    ? widget.user.username
-                    : widget.user.displayName),
+                child: Text(
+                  widget.user.displayName.isEmpty
+                      ? widget.user.username
+                      : widget.user.displayName,
+                ),
               ),
               const PopupMenuDivider(),
-              const PopupMenuItem(
-                value: 'logout',
-                child: Text('Logout'),
-              ),
+              const PopupMenuItem(value: 'logout', child: Text('Logout')),
             ],
             child: CircleAvatar(
               radius: 17,
